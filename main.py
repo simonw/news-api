@@ -16,18 +16,16 @@ def update_top_headline():
             print(f"Started category:{category} country:{country} at {strftime('%X %d %B %Y')}")
             try:
                 newsapi = NewsApiClient(api_key=FIRSTAPI)
-                print("First API")
                 top_headlines = newsapi.get_top_headlines(category=category, country=country, language=COUNTRIES_LANGUAGES[country], page_size=100)
             except Exception as e:
                 newsapi = NewsApiClient(api_key=SECONDAPI)
-                print("Second API")
                 top_headlines = newsapi.get_top_headlines(category=category, country=country, language=COUNTRIES_LANGUAGES[country], page_size=100)
             json_string = dumps(top_headlines)
             try:
                 with open(f"{country}/{category}.json", "w") as outfile:
                     outfile.write(json_string)
             except Exception as e: 
-                system(f"mkdir {country}")
+                os.system(f"mkdir {country}")
                 with open(f"{country}/{category}.json", "w") as outfile:
                     outfile.write(json_string)
 
